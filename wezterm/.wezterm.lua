@@ -31,9 +31,6 @@ config.color_scheme = 'Andromeda'
 -- Background
 config.background = {
   {
-    source = {
-      File = env.BACKGROUND_IMAGE_PATH
-    },
     attachment = { Parallax = 0.05 },
     hsb = {
       brightness = 0.05,
