@@ -1,4 +1,4 @@
-以下を実行する
+cloneして以下を実行する
 ```zsh
 $ sh setup.sh
 ```
