@@ -26,24 +26,13 @@ local env = load_env(string.format("%s/dotfiles/.env", dirName))
 local config = wezterm.config_builder()
 
 -- Color scheme
-config.color_scheme = 'Andromeda'
-
--- Background
-config.background = {
-  {
-    attachment = { Parallax = 0.05 },
-    hsb = {
-      brightness = 0.05,
-    }
-  }
-
-}
+config.color_scheme = 'Iceburg'
 
 -- Cursor
 config.default_cursor_style = "BlinkingBlock"
 
 -- TabBar
-config.hide_tab_bar_if_only_one_tab = true -- タブが1つだけの場合はタブバーを非表示にする
+config.hide_tab_bar_if_only_one_tab = false -- タブが1つだけの場合はタブバーを非表示にする
 config.show_tab_index_in_tab_bar    = false -- タブバーにインデックスを表示しない
 
 -- Font
@@ -52,7 +41,6 @@ config.treat_east_asian_ambiguous_width_as_wide = true -- 日本語を2文字分
 config.font                                     = wezterm.font "MonaspiceAr Nerd Font Mono"
 
 -- Window
-config.window_decorations        = "RESIZE" -- タイトルバーを非表示にする
 config.window_close_confirmation = "NeverPrompt" -- ウィンドウを閉じる際の確認を行わない
 config.initial_rows              = 50 -- 初期の行数
 config.initial_cols              = 150 -- 初期の列数
