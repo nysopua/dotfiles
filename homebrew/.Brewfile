@@ -1,5 +1,5 @@
 tap "homebrew/bundle"
-brew "asdf"
+brew "mise"
 brew "bat"
 brew "eza"
 brew "fd"
