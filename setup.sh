@@ -20,6 +20,6 @@ source ~/dotfiles/replace-git.sh
 
 echo "セットアップが完了しました"
 echo "Next Steps:"
-echo "1. .envを追加し、環境変数を設定してください。"
+echo "1. 必要に応じて.envを追加し、環境変数を設定してください。"
 echo "2. git/user.confを追加し、ユーザー情報を設定してください。"
 echo "3. ターミナルを再起動してください。"
