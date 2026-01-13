@@ -33,6 +33,9 @@
       cleanup = "none";  # 他の homebrew パッケージには触らない
     };
     brews = [ "mas" ];  # masApps に必要
+    casks = [
+      "google-chrome"
+    ];
     masApps = {
       "GarageBand" = 682658836;
       "iMovie" = 408981434;

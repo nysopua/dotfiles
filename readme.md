@@ -126,6 +126,7 @@ direnv allow
 | CLI ツール | nixpkgs | 問題なく動作 |
 | GUI アプリ | nixpkgs (基本) | 大半は動作する |
 | GUI アプリ | brew-nix | `/Applications` 配置が必要、または nixpkgs で macOS 非対応 |
+| GUI アプリ | nix-darwin の `homebrew.casks` | brew-nix でハッシュミスマッチが起きる場合 |
 | Mac App Store | nix-darwin の `homebrew.masApps` | brew-nix は cask のみ対応、masApps 非対応 |
 
 ## カスタマイズ
@@ -133,6 +134,7 @@ direnv allow
 - **CLIツール追加**: `nix/darwin.nix` の `environment.systemPackages` または `nix/home.nix` の `home.packages`
 - **GUIアプリ追加 (nixpkgs)**: `nix/home.nix` の `home.packages` に追加
 - **GUIアプリ追加 (brew-nix)**: `nix/home.nix` の `home.packages` に `brewCasks.xxx` を追加
+- **GUIアプリ追加 (homebrew)**: `nix/darwin.nix` の `homebrew.casks` に追加 (brew-nix でエラーの場合)
 - **Mac App Store追加**: `nix/darwin.nix` の `homebrew.masApps` に追加
 - **zsh エイリアス**: `nix/home.nix` の `programs.zsh.shellAliases`
 - **macOS 設定**: `nix/darwin.nix` の `system.defaults`
