@@ -1,0 +1,4 @@
+{
+  username = "your-username";  # whoami
+  hostname = "your-hostname";  # hostname -s
+}

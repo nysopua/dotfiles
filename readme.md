@@ -1,4 +1,127 @@
-cloneして以下を実行する
-```zsh
-$ sh setup.sh
+# dotfiles
+
+Nix + nix-darwin + home-manager で管理する macOS 設定
+
+## 新規セットアップ
+
+### 1. Nix をインストール
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
+
+インストール後、ターミナルを再起動。
+
+### 2. このリポジトリをクローン
+
+```bash
+git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/dotfiles
+```
+
+### 3. ローカル設定を作成
+
+> このファイルは `.gitignore` で除外されているため、push されません。
+
+```bash
+cat > ~/dotfiles/local.nix << EOF
+{
+  username = "$(whoami)";
+  hostname = "$(hostname -s)";
+}
+EOF
+```
+
+### 4. Git ユーザー設定を作成
+
+> このファイルは `.gitignore` で除外されているため、push されません。
+
+```bash
+mkdir -p ~/dotfiles/git
+cat > ~/dotfiles/git/user.conf << 'EOF'
+[user]
+  name = {Your Name}
+  email = {your@email.com}
+EOF
+```
+
+### 5. 既存ファイルがあればバックアップ
+
+```bash
+[ -f /etc/zshenv ] && sudo mv /etc/zshenv /etc/zshenv.before-nix-darwin
+[ -f ~/.zshrc ] && mv ~/.zshrc ~/.zshrc.backup
+[ -f ~/.zshenv ] && mv ~/.zshenv ~/.zshenv.backup
+```
+
+### 6. nix-darwin を初回ビルド
+
+```bash
+cd ~/dotfiles
+export DOTFILES_DIR="$HOME/dotfiles"
+sudo --preserve-env=DOTFILES_DIR nix run nix-darwin -- switch --flake . --impure
+```
+
+sudo パスワードを求められたら入力。
+
+### 7. ターミナルを再起動
+
+新しいターミナルを開けば設定が反映されている。
+
+### 8. Git 設定の確認
+
+`git/user.conf` の設定が反映されているか確認：
+
+```bash
+git config user.name
+git config user.email
+```
+
+## 日常の使い方
+
+### 設定を変更した後
+
+```bash
+cd ~/dotfiles && nix run .#switch
+```
+
+### flake.lock を更新（パッケージ更新）
+
+```bash
+cd ~/dotfiles
+nix flake update
+nix run .#switch
+```
+
+## プロジェクトごとの開発環境 (devenv)
+
+各プロジェクトで devenv を使う場合：
+
+```bash
+cd your-project
+nix flake init --template github:cachix/devenv
+direnv allow
+```
+
+`devenv.nix` を編集して必要なツールを追加。
+
+## ファイル構成
+
+```
+~/dotfiles/
+├── flake.nix           # エントリポイント
+├── flake.lock          # ロックファイル
+├── local.nix           # ローカル設定 (.gitignore済み)
+├── local.nix.example   # ローカル設定のテンプレート
+├── nix/
+│   ├── darwin.nix      # macOS システム設定 + Homebrew
+│   └── home.nix        # ユーザー設定 (zsh, git, starship, etc.)
+├── git/
+│   └── user.conf       # Git ユーザー設定 (.gitignore済み)
+└── devenv.nix          # devenv テンプレート
+```
+
+## カスタマイズ
+
+- **パッケージ追加**: `nix/darwin.nix` の `environment.systemPackages` または `nix/home.nix` の `home.packages`
+- **Homebrew cask**: `nix/darwin.nix` の `homebrew.casks`
+- **zsh エイリアス**: `nix/home.nix` の `programs.zsh.shellAliases`
+- **macOS 設定**: `nix/darwin.nix` の `system.defaults`
