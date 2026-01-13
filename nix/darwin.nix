@@ -1,13 +1,13 @@
 { pkgs, inputs, username, ... }:
 
 {
-  # Primary user (required for homebrew and system.defaults)
+  # プライマリユーザー (homebrew と system.defaults に必要)
   system.primaryUser = username;
 
-  # Disable nix-darwin's Nix management (using Determinate Nix)
+  # nix-darwin の Nix 管理を無効化 (Determinate Nix を使用)
   nix.enable = false;
 
-  # System packages (CLI tools)
+  # システムパッケージ (CLI ツール)
   environment.systemPackages = with pkgs; [
     bat
     eza
@@ -23,30 +23,16 @@
     tree
   ];
 
-  # Homebrew (for casks and mas apps that Nix can't handle)
+  # Homebrew (Mac App Store アプリ専用)
+  # brew-nix は cask のみ対応、masApps は非対応のため
+  # nix-darwin の homebrew モジュール経由で mas CLI を使用
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = true;
-      cleanup = "zap";  # Remove unlisted packages
+      autoUpdate = false;
+      cleanup = "none";  # 他の homebrew パッケージには触らない
     };
-    taps = [];
-    brews = [
-      "mas"  # Mac App Store CLI
-    ];
-    casks = [
-      "blackhole-2ch"
-      "brave-browser"
-      "font-fira-code-nerd-font"
-      "font-hack-nerd-font"
-      "font-monaspace-nerd-font"
-      "font-symbols-only-nerd-font"
-      "raycast"
-      "signal"
-      "spotify"
-      "visual-studio-code"
-      "wezterm"
-    ];
+    brews = [ "mas" ];  # masApps に必要
     masApps = {
       "GarageBand" = 682658836;
       "iMovie" = 408981434;
@@ -58,7 +44,7 @@
     };
   };
 
-  # macOS system settings
+  # macOS システム設定
   system = {
     defaults = {
       NSGlobalDomain = {
@@ -76,19 +62,15 @@
         show-recents = false;
       };
     };
-    # Used for backwards compat
     stateVersion = 5;
   };
 
-  # Enable zsh as default shell
+  # zsh をデフォルトシェルに
   programs.zsh.enable = true;
 
-  # User configuration
+  # ユーザー設定
   users.users.${username} = {
     name = username;
     home = "/Users/${username}";
   };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 }

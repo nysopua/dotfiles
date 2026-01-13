@@ -3,22 +3,39 @@
 {
   home.stateVersion = "24.05";
 
-  # User packages
+  # ユーザーパッケージ
   home.packages = with pkgs; [
-    # Node.js (replaces mise for node)
+    # Node.js
     nodejs_22
     nodePackages.pnpm
 
     # Rust
     rustup
 
-    # Zsh plugins (replaces sheldon)
+    # Zsh プラグイン
     zsh-autosuggestions
     zsh-syntax-highlighting
     zsh-completions
+
+    # フォント
+    nerd-fonts.fira-code
+    nerd-fonts.hack
+    nerd-fonts.monaspace
+    nerd-fonts.symbols-only
+
+    # GUI アプリ (nixpkgs)
+    wezterm
+    brave
+    spotify
+    vscode
+
+    # GUI アプリ (brew-nix)
+    # 理由: /Applications への配置が必要、または nixpkgs で非対応
+    brewCasks.raycast
+    brewCasks.signal  # nixpkgs は macOS 非対応
   ];
 
-  # Git configuration
+  # Git 設定
   programs.git = {
     enable = true;
     includes = [
@@ -31,7 +48,7 @@
     };
   };
 
-  # Zsh configuration
+  # Zsh 設定
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -83,7 +100,7 @@
     '';
   };
 
-  # Starship prompt
+  # Starship プロンプト
   programs.starship = {
     enable = true;
     settings = {
@@ -150,13 +167,13 @@
     enable = true;
   };
 
-  # direnv (useful for devenv)
+  # direnv (devenv で使用)
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
 
-  # WezTerm
+  # WezTerm 設定
   xdg.configFile."wezterm/wezterm.lua".text = ''
     local wezterm = require 'wezterm'
     local config = wezterm.config_builder()

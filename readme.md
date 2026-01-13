@@ -112,16 +112,27 @@ direnv allow
 ├── local.nix           # ローカル設定 (.gitignore済み)
 ├── local.nix.example   # ローカル設定のテンプレート
 ├── nix/
-│   ├── darwin.nix      # macOS システム設定 + Homebrew
-│   └── home.nix        # ユーザー設定 (zsh, git, starship, etc.)
+│   ├── darwin.nix      # macOS システム設定
+│   └── home.nix        # ユーザー設定 (zsh, git, starship, GUI apps, etc.)
 ├── git/
 │   └── user.conf       # Git ユーザー設定 (.gitignore済み)
 └── devenv.nix          # devenv テンプレート
 ```
 
+## パッケージ管理方針
+
+| 種類 | 管理方法 | 理由 |
+|------|---------|------|
+| CLI ツール | nixpkgs | 問題なく動作 |
+| GUI アプリ | nixpkgs (基本) | 大半は動作する |
+| GUI アプリ | brew-nix | `/Applications` 配置が必要、または nixpkgs で macOS 非対応 |
+| Mac App Store | nix-darwin の `homebrew.masApps` | brew-nix は cask のみ対応、masApps 非対応 |
+
 ## カスタマイズ
 
-- **パッケージ追加**: `nix/darwin.nix` の `environment.systemPackages` または `nix/home.nix` の `home.packages`
-- **Homebrew cask**: `nix/darwin.nix` の `homebrew.casks`
+- **CLIツール追加**: `nix/darwin.nix` の `environment.systemPackages` または `nix/home.nix` の `home.packages`
+- **GUIアプリ追加 (nixpkgs)**: `nix/home.nix` の `home.packages` に追加
+- **GUIアプリ追加 (brew-nix)**: `nix/home.nix` の `home.packages` に `brewCasks.xxx` を追加
+- **Mac App Store追加**: `nix/darwin.nix` の `homebrew.masApps` に追加
 - **zsh エイリアス**: `nix/home.nix` の `programs.zsh.shellAliases`
 - **macOS 設定**: `nix/darwin.nix` の `system.defaults`

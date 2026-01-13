@@ -15,9 +15,21 @@
     };
 
     devenv.url = "github:cachix/devenv";
+
+    # Homebrew casks via Nix
+    brew-api = {
+      url = "github:BatteredBunny/brew-api";
+      flake = false;
+    };
+
+    brew-nix = {
+      url = "github:BatteredBunny/brew-nix";
+      inputs.brew-api.follows = "brew-api";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, devenv, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, devenv, brew-nix, ... }:
     let
       # Import local config (not tracked by git, requires --impure)
       dotfilesDir = builtins.getEnv "DOTFILES_DIR";
@@ -25,11 +37,17 @@
       username = localConfig.username;
       hostname = localConfig.hostname;
       system = "aarch64-darwin";
-      pkgs = nixpkgs.legacyPackages.${system};
+
+      # Apply brew-nix overlay
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+        overlays = [ brew-nix.overlays.default ];
+      };
     in
     {
       darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
-        inherit system;
+        inherit system pkgs;
         modules = [
           ./nix/darwin.nix
           home-manager.darwinModules.home-manager
@@ -40,7 +58,7 @@
             home-manager.users.${username} = import ./nix/home.nix;
           }
         ];
-        specialArgs = { inherit inputs username; };
+        specialArgs = { inherit inputs username pkgs; };
       };
 
       # nix run .#switch
