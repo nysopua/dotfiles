@@ -83,12 +83,26 @@ git config user.email
 cd ~/dotfiles && nix run .#switch
 ```
 
-### flake.lock を更新（パッケージ更新）
+### パッケージ更新
+
+| 種類 | 更新方法 |
+|------|---------|
+| nixpkgs (CLI, GUI アプリ) | `nix flake update && nix run .#switch` |
+| brew-nix (raycast, signal) | `nix flake update && nix run .#switch` |
+| homebrew.casks (chrome) | `brew upgrade --cask` |
+| masApps (Xcode 等) | Mac App Store から更新 |
 
 ```bash
 cd ~/dotfiles
+
+# flake.lock を更新（nixpkgs, brew-nix 等すべて）
 nix flake update
+
+# 適用
 nix run .#switch
+
+# homebrew casks の更新（chrome など）
+brew upgrade --cask
 ```
 
 ## プロジェクトごとの開発環境 (devenv)
