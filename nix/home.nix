@@ -8,6 +8,7 @@
     # Node.js
     nodejs_22
     nodePackages.pnpm
+    opencommit
 
     # Rust
     rustup
@@ -22,6 +23,9 @@
     nerd-fonts.hack
     nerd-fonts.monaspace
     nerd-fonts.symbols-only
+
+    # claude
+    (lib.hiPrio claude-code)
 
     # GUI アプリ (nixpkgs)
     wezterm

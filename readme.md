@@ -85,25 +85,15 @@ cd ~/dotfiles && nix run .#switch
 
 ### パッケージ更新
 
-| 種類 | 更新方法 |
-|------|---------|
-| nixpkgs (CLI, GUI アプリ) | `nix flake update && nix run .#switch` |
-| brew-nix (raycast, signal) | `nix flake update && nix run .#switch` |
-| homebrew.casks (chrome) | `brew upgrade --cask` |
-| masApps (Xcode 等) | Mac App Store から更新 |
-
 ```bash
-cd ~/dotfiles
-
-# flake.lock を更新（nixpkgs, brew-nix 等すべて）
-nix flake update
-
-# 適用
-nix run .#switch
-
-# homebrew casks の更新（chrome など）
-brew upgrade --cask
+cd ~/dotfiles && just update
 ```
+
+これで以下がすべて更新される：
+- nixpkgs (CLI, GUI アプリ)
+- brew-nix (raycast, signal)
+- homebrew.casks (chrome)
+- masApps (Xcode 等)
 
 ## プロジェクトごとの開発環境 (devenv)
 
@@ -123,6 +113,7 @@ direnv allow
 ~/dotfiles/
 ├── flake.nix           # エントリポイント
 ├── flake.lock          # ロックファイル
+├── justfile            # 管理コマンド (just switch, just update)
 ├── local.nix           # ローカル設定 (.gitignore済み)
 ├── local.nix.example   # ローカル設定のテンプレート
 ├── nix/
