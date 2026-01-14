@@ -70,10 +70,12 @@
 
   # zsh をデフォルトシェルに
   programs.zsh.enable = true;
+  environment.shells = [ pkgs.zsh ];
 
   # ユーザー設定
   users.users.${username} = {
     name = username;
     home = "/Users/${username}";
+    shell = pkgs.zsh;
   };
 }

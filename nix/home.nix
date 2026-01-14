@@ -178,30 +178,8 @@
   };
 
   # WezTerm 設定
-  xdg.configFile."wezterm/wezterm.lua".text = ''
-    local wezterm = require 'wezterm'
-    local config = wezterm.config_builder()
-
-    -- Color scheme
-    config.color_scheme = 'Iceberg Dark'
-
-    -- Cursor
-    config.default_cursor_style = "BlinkingBlock"
-
-    -- TabBar
-    config.hide_tab_bar_if_only_one_tab = false
-    config.show_tab_index_in_tab_bar = false
-
-    -- Font
-    config.line_height = 1.1
-    config.treat_east_asian_ambiguous_width_as_wide = true
-    config.font = wezterm.font "MonaspiceAr Nerd Font Mono"
-
-    -- Window
-    config.window_close_confirmation = "NeverPrompt"
-    config.initial_rows = 50
-    config.initial_cols = 150
-
-    return config
-  '';
+  xdg.configFile."wezterm" = {
+    source = ../wezterm;
+    recursive = true;
+  };
 }
