@@ -75,6 +75,36 @@ git config user.name
 git config user.email
 ```
 
+## ローカル固有の設定
+
+このリポジトリをフォークして使う場合、個別の設定を追加できる。
+
+### システム設定 (darwin)
+
+```bash
+cp ~/dotfiles/nix/local-darwin.nix.example ~/dotfiles/nix/local-darwin.nix
+```
+
+追加できるもの:
+- CLI ツール (`environment.systemPackages`)
+- Homebrew casks (`homebrew.casks`)
+- Mac App Store アプリ (`homebrew.masApps`)
+- macOS 設定 (`system.defaults`)
+
+### ユーザー設定 (home-manager)
+
+```bash
+cp ~/dotfiles/nix/local-home.nix.example ~/dotfiles/nix/local-home.nix
+```
+
+追加できるもの:
+- パッケージ (`home.packages`)
+- zsh エイリアス (`programs.zsh.shellAliases`)
+- zsh 関数 (`programs.zsh.initContent`)
+- Git 設定 (`programs.git.extraConfig`)
+
+これらのファイルは `.gitignore` で除外されているため、push されない。
+
 ## 日常の使い方
 
 ### 設定を変更した後
@@ -111,17 +141,22 @@ direnv allow
 
 ```
 ~/dotfiles/
-├── flake.nix           # エントリポイント
-├── flake.lock          # ロックファイル
-├── justfile            # 管理コマンド (just switch, just update)
-├── local.nix           # ローカル設定 (.gitignore済み)
-├── local.nix.example   # ローカル設定のテンプレート
+├── flake.nix                    # エントリポイント
+├── flake.lock                   # ロックファイル
+├── justfile                     # 管理コマンド (just switch, just update)
+├── local.nix                    # ローカル設定 (.gitignore済み)
+├── local.nix.example            # ローカル設定のテンプレート
 ├── nix/
-│   ├── darwin.nix      # macOS システム設定
-│   └── home.nix        # ユーザー設定 (zsh, git, starship, GUI apps, etc.)
+│   ├── darwin.nix               # macOS システム設定
+│   ├── home.nix                 # ユーザー設定 (zsh, git, starship, GUI apps, etc.)
+│   ├── local-darwin.nix         # ローカル固有のシステム設定 (.gitignore済み)
+│   ├── local-darwin.nix.example # ↑のテンプレート
+│   ├── local-home.nix           # ローカル固有のユーザー設定 (.gitignore済み)
+│   └── local-home.nix.example   # ↑のテンプレート
 ├── git/
-│   └── user.conf       # Git ユーザー設定 (.gitignore済み)
-└── devenv.nix          # devenv テンプレート
+│   └── user.conf                # Git ユーザー設定 (.gitignore済み)
+├── wezterm/                     # WezTerm 設定
+└── devenv.nix                   # devenv テンプレート
 ```
 
 ## パッケージ管理方針

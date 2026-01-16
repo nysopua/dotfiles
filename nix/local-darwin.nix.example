@@ -1,0 +1,24 @@
+# ローカル固有のシステム設定
+# このファイルを local-darwin.nix にコピーして編集
+{ pkgs, ... }:
+
+{
+  # 追加の CLI ツール
+  # environment.systemPackages = with pkgs; [
+  #   awscli2
+  #   kubectl
+  # ];
+
+  # 追加の Homebrew casks (brew-nix でエラーになるもの)
+  # homebrew.casks = [
+  #   "docker"
+  # ];
+
+  # 追加の Mac App Store アプリ
+  # homebrew.masApps = {
+  #   "Slack" = 803453959;
+  # };
+
+  # macOS 設定の上書き
+  # system.defaults.dock.autohide = true;
+}

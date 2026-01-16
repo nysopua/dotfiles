@@ -1,0 +1,42 @@
+# ローカル固有のユーザー設定
+# このファイルを local-home.nix にコピーして編集
+{ pkgs, ... }:
+
+{
+  # 追加のパッケージ
+  # home.packages = with pkgs; [
+  #   discord
+  #   zoom-us
+  # ];
+
+  # 追加の zsh エイリアス
+  # programs.zsh.shellAliases = {
+  #   work = "cd ~/work";
+  # };
+
+  # 追加の zsh 設定（PATH、環境変数、関数など）
+  # programs.zsh.initContent = ''
+  #   # PATH を追加
+  #   export PATH="$HOME/bin:$PATH"
+  #   export PATH="/opt/homebrew/opt/mysql/bin:$PATH"
+  #
+  #   # 環境変数
+  #   export EDITOR="code --wait"
+  #   export AWS_PROFILE="default"
+  #
+  #   # カスタム関数
+  #   mkcd() { mkdir -p "$1" && cd "$1"; }
+  # '';
+
+  # 環境変数（home.sessionVariables でも設定可能）
+  # home.sessionVariables = {
+  #   EDITOR = "code --wait";
+  #   AWS_PROFILE = "default";
+  # };
+
+  # Git の追加設定
+  # programs.git.extraConfig = {
+  #   core.editor = "vim";
+  #   push.autoSetupRemote = true;
+  # };
+}

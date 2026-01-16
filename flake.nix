@@ -38,6 +38,10 @@
       hostname = localConfig.hostname;
       system = "aarch64-darwin";
 
+      # ローカル設定ファイルのパス
+      localDarwinPath = "${dotfilesDir}/nix/local-darwin.nix";
+      localHomePath = "${dotfilesDir}/nix/local-home.nix";
+
       # Apply brew-nix overlay
       pkgs = import nixpkgs {
         inherit system;
@@ -55,9 +59,12 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "backup";
-            home-manager.users.${username} = import ./nix/home.nix;
+            home-manager.users.${username} = { pkgs, ... }: {
+              imports = [ ./nix/home.nix ]
+                ++ (if builtins.pathExists localHomePath then [ localHomePath ] else []);
+            };
           }
-        ];
+        ] ++ (if builtins.pathExists localDarwinPath then [ localDarwinPath ] else []);
         specialArgs = { inherit inputs username pkgs; };
       };
 

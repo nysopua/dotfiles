@@ -2,3 +2,5 @@
 .env
 git/*.conf
 local.nix
+nix/local-darwin.nix
+nix/local-home.nix
