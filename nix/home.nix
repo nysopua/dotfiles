@@ -93,13 +93,8 @@
           wezterm cli spawn --new-window --cwd "$dir" &>/dev/null
           osascript -e 'tell application "WezTerm" to activate' &>/dev/null
         else
-          # 未起動: start で起動し、前面に表示
-          wezterm start --cwd "$dir" &>/dev/null &
-          (
-            # wezterm-gui プロセスが起動するまで待機
-            while ! pgrep -q wezterm-gui; do sleep 0.05; done
-            osascript -e 'tell application "WezTerm" to activate'
-          ) &>/dev/null &
+          # 未起動: open で起動（前面に表示される）
+          open -a WezTerm --args start --cwd "$dir"
         fi
       }
 
