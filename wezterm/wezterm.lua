@@ -7,7 +7,7 @@ require("on")
 local tab_bar = require("tab_bar")
 
 -- カラースキーム
-config.color_scheme = "Iceberg Dark"
+config.color_scheme = "iceberg-dark"
 
 -- フォント
 config.font = wezterm.font("MonaspiceAr Nerd Font Mono")

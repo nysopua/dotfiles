@@ -78,6 +78,31 @@
     };
 
     initContent = ''
+      # WezTerm を現在のディレクトリで開く（code . と同じ使い勝手）
+      wez() {
+        local target="''${1:-$PWD}"
+
+        # ファイルが指定された場合はそのディレクトリを使用
+        [[ -f "$target" ]] && target=$(dirname "$target")
+
+        [[ "$target" != /* ]] && target="$PWD/$target"
+        local dir=$(cd "$target" 2>/dev/null && pwd) || { echo "wez: $1: No such directory" >&2; return 1; }
+
+        # WezTerm GUI プロセスが動いているかチェック
+        if pgrep -q wezterm-gui; then
+          wezterm cli spawn --new-window --cwd "$dir" &>/dev/null
+          osascript -e 'tell application "WezTerm" to activate' &>/dev/null
+        else
+          # 未起動: start で起動し、前面に表示
+          wezterm start --cwd "$dir" &>/dev/null &
+          (
+            # wezterm-gui プロセスが起動するまで待機
+            while ! pgrep -q wezterm-gui; do sleep 0.05; done
+            osascript -e 'tell application "WezTerm" to activate'
+          ) &>/dev/null &
+        fi
+      }
+
       # Auto cd
       setopt auto_cd
       setopt auto_pushd
@@ -182,4 +207,5 @@
     source = ../wezterm;
     recursive = true;
   };
+
 }

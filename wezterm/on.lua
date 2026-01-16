@@ -22,8 +22,3 @@ wezterm.on("toggle-blur", function(window, _)
   window:set_config_overrides(overrides)
 end)
 
--- 起動時にウィンドウを最大化
-wezterm.on("gui-startup", function(_)
-  local _, _, window = wezterm.mux.spawn_window({})
-  window:gui_window():maximize()
-end)
