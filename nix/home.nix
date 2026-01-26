@@ -31,7 +31,6 @@
     wezterm
     brave
     spotify
-    vscode
 
     # GUI アプリ (brew-nix)
     # 理由: /Applications への配置が必要、または nixpkgs で非対応
@@ -201,6 +200,30 @@
   xdg.configFile."wezterm" = {
     source = ../wezterm;
     recursive = true;
+  };
+
+  # VSCode 設定
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-marketplace; [
+      anthropic.claude-code
+      bbenoist.nix
+      eamodio.gitlens
+      fill-labs.dependi
+      github.copilot
+      github.copilot-chat
+      github.vscode-github-actions
+      github.vscode-pull-request-github
+      gxl.git-graph-3
+      mhutchie.git-graph
+      moonbit.moonbit-lang
+      ms-ceintl.vscode-language-pack-ja
+      naumovs.color-highlight
+      pkief.material-icon-theme
+      redhat.vscode-yaml
+      rust-lang.rust-analyzer
+      tamasfe.even-better-toml
+    ];
   };
 
 }

@@ -121,9 +121,25 @@ cd ~/dotfiles && just update
 
 これで以下がすべて更新される：
 - nixpkgs (CLI, GUI アプリ)
+- nix-vscode-extensions (VSCode 拡張機能)
 - brew-nix (raycast, signal)
 - homebrew.casks (chrome)
-- masApps (Xcode 等)
+- masApps (Xcode 除く)
+
+### Xcode のみ更新
+
+```bash
+cd ~/dotfiles && just update-xcode
+```
+
+App Store が開くので、アップデートタブから Xcode を手動更新する。
+Xcode は時間がかかるため `just update` から除外されている。
+
+### VSCode 拡張機能のみ更新
+
+```bash
+cd ~/dotfiles && just update-vscode
+```
 
 ## プロジェクトごとの開発環境 (devenv)
 
@@ -168,6 +184,7 @@ direnv allow
 | GUI アプリ | brew-nix | `/Applications` 配置が必要、または nixpkgs で macOS 非対応 |
 | GUI アプリ | nix-darwin の `homebrew.casks` | brew-nix でハッシュミスマッチが起きる場合 |
 | Mac App Store | nix-darwin の `homebrew.masApps` | brew-nix は cask のみ対応、masApps 非対応 |
+| VSCode 拡張機能 | nix-vscode-extensions | 宣言的に管理、バージョン固定可能 |
 
 ## カスタマイズ
 
@@ -176,5 +193,6 @@ direnv allow
 - **GUIアプリ追加 (brew-nix)**: `nix/home.nix` の `home.packages` に `brewCasks.xxx` を追加
 - **GUIアプリ追加 (homebrew)**: `nix/darwin.nix` の `homebrew.casks` に追加 (brew-nix でエラーの場合)
 - **Mac App Store追加**: `nix/darwin.nix` の `homebrew.masApps` に追加
+- **VSCode 拡張機能追加**: `nix/home.nix` の `programs.vscode.extensions` に追加
 - **zsh エイリアス**: `nix/home.nix` の `programs.zsh.shellAliases`
 - **macOS 設定**: `nix/darwin.nix` の `system.defaults`

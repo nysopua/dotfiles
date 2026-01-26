@@ -27,9 +27,15 @@
       inputs.brew-api.follows = "brew-api";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # VSCode 拡張機能
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, devenv, brew-nix, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, devenv, brew-nix, nix-vscode-extensions, ... }:
     let
       # Import local config (not tracked by git, requires --impure)
       dotfilesDir = builtins.getEnv "DOTFILES_DIR";
@@ -42,11 +48,14 @@
       localDarwinPath = "${dotfilesDir}/nix/local-darwin.nix";
       localHomePath = "${dotfilesDir}/nix/local-home.nix";
 
-      # Apply brew-nix overlay
+      # Apply overlays
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
-        overlays = [ brew-nix.overlays.default ];
+        overlays = [
+          brew-nix.overlays.default
+          nix-vscode-extensions.overlays.default
+        ];
       };
     in
     {
