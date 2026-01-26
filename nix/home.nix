@@ -194,6 +194,16 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+    stdlib = ''
+      # devenv support
+      use_devenv() {
+        watch_file devenv.nix
+        watch_file devenv.yaml
+        watch_file devenv.lock
+        watch_file .devenv.flake.nix
+        eval "$(devenv print-dev-env)"
+      }
+    '';
   };
 
   # WezTerm 設定
@@ -205,7 +215,7 @@
   # VSCode 設定
   programs.vscode = {
     enable = true;
-    extensions = with pkgs.vscode-marketplace; [
+    profiles.default.extensions = with pkgs.vscode-marketplace; [
       anthropic.claude-code
       bbenoist.nix
       eamodio.gitlens
